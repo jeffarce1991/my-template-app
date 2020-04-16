@@ -1,5 +1,6 @@
 # Project420
-A Project where i impemented : 
+A Project where I impemented : 
   - Kotlin
   - Retrofit
   - Proguard
+  - Data Binding
