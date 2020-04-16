@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Project420</string>
     <string name="error">Something went wrong… Please try later!</string>
+    <string name="content_description">Sample Content Description</string>
 </resources>

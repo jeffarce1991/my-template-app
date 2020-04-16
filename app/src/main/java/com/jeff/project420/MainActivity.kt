@@ -4,8 +4,10 @@ import com.jeff.project420.adapter.CustomAdapter
 import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jeff.project420.databinding.ActivityMainBinding
 import com.jeff.project420.network.RetrofitClientInstance
 import com.jeff.project420.model.RetroPhoto
 import com.jeff.project420.network.GetDataService
@@ -17,13 +19,14 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: CustomAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var progressDialog: ProgressDialog
+
+    lateinit var mainBinding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         progressDialog = ProgressDialog.show(
             this,
             "Retrofit",
@@ -58,10 +61,9 @@ class MainActivity : AppCompatActivity() {
 
     /*Method to generate List of data using RecyclerView with custom com.project.retrofit.adapter*/
     private fun generateDataList(photoList: List<RetroPhoto>) {
-        recyclerView = findViewById(R.id.customRecyclerView)
         adapter = CustomAdapter(this, photoList)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@MainActivity)
-        this.recyclerView.layoutManager = layoutManager
-        this.recyclerView.adapter = adapter
+        mainBinding.customRecyclerView.layoutManager = layoutManager
+        mainBinding.customRecyclerView.adapter = adapter
     }
 }

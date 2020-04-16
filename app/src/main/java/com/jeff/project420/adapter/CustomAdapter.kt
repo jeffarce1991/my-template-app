@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.jakewharton.picasso.OkHttp3Downloader
 import com.jeff.project420.R
 import com.jeff.project420.adapter.CustomAdapter.CustomViewHolder
+import com.jeff.project420.databinding.CustomRowBinding
 import com.jeff.project420.model.RetroPhoto
 import com.squareup.picasso.Picasso
 
@@ -19,17 +21,19 @@ internal class CustomAdapter(
     private val dataList: List<RetroPhoto>
 ) : RecyclerView.Adapter<CustomViewHolder>() {
 
-    internal inner class CustomViewHolder(mView: View) :
-        ViewHolder(mView) {
-        var txtTitle: TextView = mView.findViewById(R.id.customRowTitle)
-        val coverImage: ImageView = mView.findViewById(R.id.coverImage)
+    internal inner class CustomViewHolder(binding: CustomRowBinding) :
+        ViewHolder(binding.root) {
+        var txtTitle: TextView = binding.customRowTitle
+        val coverImage: ImageView = binding.coverImage
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.custom_row, parent, false)
-        return CustomViewHolder(view)
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolder {
+        val binding = DataBindingUtil.inflate<CustomRowBinding>(LayoutInflater.from(p0.context),
+            R.layout.custom_row,
+            p0,
+            false)
+        return CustomViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
