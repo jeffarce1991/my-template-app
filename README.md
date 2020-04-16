@@ -1,5 +1,5 @@
 # Project420
-A Project where I impemented : 
+A Android Project where I impemented : 
   - Kotlin
   - Retrofit
   - Proguard
