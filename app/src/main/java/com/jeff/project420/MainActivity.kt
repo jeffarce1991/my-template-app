@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         /*Create handle for the RetrofitInstance interface*/
         val service =
             RetrofitClientInstance.getRetrofitInstance(
-                Constants.Gateways.JSONPLACEHOLDER).create(
+                Constants.Gateways.JSONPLACEHOLDER)!!.create(
                 GetDataService::class.java
             )
 
