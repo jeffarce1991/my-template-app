@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Project420</string>
+    <string name="error">Something went wrong… Please try later!</string>
 </resources>
