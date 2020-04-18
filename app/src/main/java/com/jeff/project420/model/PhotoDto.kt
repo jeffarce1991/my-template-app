@@ -2,7 +2,7 @@ package com.jeff.project420.model
 
 import com.google.gson.annotations.SerializedName
 
-class RetroPhotoDto(
+class PhotoDto(
     @field:SerializedName("albumId") var albumId: Int,
     @field:SerializedName("id") var id: Int,
     @field:SerializedName("title") var title: String,

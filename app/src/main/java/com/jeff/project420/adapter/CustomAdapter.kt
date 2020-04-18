@@ -12,12 +12,12 @@ import com.jakewharton.picasso.OkHttp3Downloader
 import com.jeff.project420.R
 import com.jeff.project420.adapter.CustomAdapter.CustomViewHolder
 import com.jeff.project420.databinding.CustomRowBinding
-import com.jeff.project420.model.RetroPhotoDto
+import com.jeff.project420.model.PhotoDto
 import com.squareup.picasso.Picasso
 
 internal class CustomAdapter(
     private val context: Context,
-    private val dataList: List<RetroPhotoDto>
+    private val dataList: List<PhotoDto>
 ) : RecyclerView.Adapter<CustomViewHolder>() {
 
     internal inner class CustomViewHolder(binding: CustomRowBinding) :
