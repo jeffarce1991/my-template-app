@@ -2,7 +2,6 @@ package com.jeff.project420.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,12 +12,12 @@ import com.jakewharton.picasso.OkHttp3Downloader
 import com.jeff.project420.R
 import com.jeff.project420.adapter.CustomAdapter.CustomViewHolder
 import com.jeff.project420.databinding.CustomRowBinding
-import com.jeff.project420.model.RetroPhoto
+import com.jeff.project420.model.RetroPhotoDto
 import com.squareup.picasso.Picasso
 
 internal class CustomAdapter(
     private val context: Context,
-    private val dataList: List<RetroPhoto>
+    private val dataList: List<RetroPhotoDto>
 ) : RecyclerView.Adapter<CustomViewHolder>() {
 
     internal inner class CustomViewHolder(binding: CustomRowBinding) :
