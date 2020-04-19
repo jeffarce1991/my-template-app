@@ -1,11 +1,12 @@
 package com.jeff.project420.network
 
 import com.jeff.project420.model.PhotoDto
-import retrofit2.Call
+import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface GetDataService {
 
-    @get:GET("/photos")
-    val allPhotos: Call<List<PhotoDto>>
+    @GET("photos")
+    fun getAllPhotos(): Single<Response<List<PhotoDto>>>
 }
