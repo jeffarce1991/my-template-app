@@ -8,10 +8,11 @@ import com.jeff.project420.database.room.PhotoDatabase
 import com.jeff.project420.model.PhotoDto
 import com.jeff.project420.network.GetDataService
 import com.jeff.project420.network.RetrofitClientInstance
-import retrofit2.Call
-import retrofit2.Callback
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
-import timber.log.Timber
 
 
 class MainActivityPresenter(
@@ -21,38 +22,34 @@ class MainActivityPresenter(
     lateinit var photoDatabase: PhotoDatabase
 
     fun getPhotoList() {
-        view.showProgress()
-
         /*Create handle for the RetrofitInstance interface*/
         val service =
-            RetrofitClientInstance.getRetrofitInstance(
+            RetrofitClientInstance.getRxRetrofitInstance(
                 Constants.Gateways.JSONPLACEHOLDER
             )!!.create(
                 GetDataService::class.java
             )
 
-        val call: Call<List<PhotoDto>> = service.allPhotos
-        call.enqueue(object : Callback<List<PhotoDto>> {
-            override fun onFailure(call: Call<List<PhotoDto>>, t: Throwable) {
-                view.hideProgress()
-                Timber.e(t)
-                t.printStackTrace()
-            }
+        service.getAllPhotos().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<Response<List<PhotoDto>>> {
+                override fun onSuccess(t: Response<List<PhotoDto>>) {
+                    view.hideProgress()
+                    view.generateDataList(mapPhotoDtosToPhotos(t.body()!!))
 
-            override fun onResponse(
-                call: Call<List<PhotoDto>>,
-                response: Response<List<PhotoDto>>
-            ) {
-                view.hideProgress()
-                view.generateDataList(mapPhotoDtosToPhotos(response.body()!!))
-                AppExecutors.getInstance().diskIO().execute {
-                    photoDatabase = PhotoDatabase.getInstance(context)
-                    photoDatabase.photoDao()!!
-                        .insertAll(mapPhotoDtosToPhotos(response.body()!!))
+                    AppExecutors.getInstance().diskIO().execute {
+                        photoDatabase = PhotoDatabase.getInstance(context)
+                        photoDatabase.photoDao()!!
+                            .insertAll(mapPhotoDtosToPhotos(t.body()!!))
+                    }
                 }
-            }
-
-        })
+                override fun onSubscribe(d: Disposable) {
+                    view.showProgress()
+                }
+                override fun onError(e: Throwable) {
+                    view.hideProgress()
+                }
+            })
     }
 
     private fun mapPhotoDtosToPhotos(photoDtos: List<PhotoDto>): List<Photo> {
