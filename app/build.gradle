@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     def room_version = "2.2.5"
+    def mosby_mvp = "2.0.0"
+    implementation "com.hannesdorfmann.mosby:mvp:$mosby_mvp"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
