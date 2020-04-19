@@ -4,3 +4,5 @@ A Android Project where I impemented :
   - Retrofit
   - Proguard
   - Data Binding
+  - Room
+  - MVP
