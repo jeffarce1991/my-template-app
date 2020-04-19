@@ -6,3 +6,4 @@ A Android Project where I impemented :
   - Data Binding
   - Room
   - MVP
+  - RxJava
