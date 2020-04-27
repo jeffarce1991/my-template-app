@@ -1,5 +1,10 @@
+<!DOCTYPE resources [
+    <!ENTITY app_name "Project420">
+    <!ENTITY db_name "pft-database.sql">
+    ]>
 <resources>
-    <string name="app_name">Project420</string>
+    <string name="db_name">&db_name;</string>
+    <string name="app_name">&app_name;</string>
     <string name="error">Something went wrong… Please try later!</string>
     <string name="content_description">Sample Content Description</string>
 </resources>
