@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.jeff.project420.model** { *; }
+-keep class com.jeff.project420** { *; }
 
 #This excludes shrinking and obfuscating parts of classes that extend
 #select classes from the Android API. The line including BroadcastReceiver
