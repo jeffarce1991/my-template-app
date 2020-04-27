@@ -59,7 +59,7 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
     override fun showProgress() {
         progressDialog = ProgressDialog.show(
             this,
-            "Retrofit",
-            "Loading...")
+            "Project420",
+            "Loading data...")
     }
 }

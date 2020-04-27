@@ -55,28 +55,34 @@ constructor(
             .subscribe(object : SingleObserver<List<Photo>> {
 
                 override fun onSubscribe(d: Disposable) {
-                    view.showProgress()
-                    disposable = d
                     Timber.d("==q onSubscribe")
+                    disposable = d
+
+                    view.showProgress()
                 }
 
                 override fun onSuccess(t: List<Photo>) {
+                    Timber.d("==q onSuccess")
+
                     view.hideProgress()
                     view.generateDataList(t)
 
                     dispose()
-                    Timber.d("==q onSuccess")
                 }
 
                 override fun onError(e: Throwable) {
+                    Timber.d("==q onError $e")
+
                     view.hideProgress()
 
                     if (e is NoInternetException) {
-                        loadAll()
                         Timber.d("==q onError is $e")
+
+                        loadAll()
+                    } else {
+
+                        dispose()
                     }
-                    Timber.d("==q onError $e")
-                    e.printStackTrace()
                 }
             })
     }
@@ -119,20 +125,23 @@ constructor(
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<List<Photo>>{
+                override fun onSubscribe(d: Disposable) {
+                    disposable = d
+                    view.showProgress()
+                }
+
                 override fun onSuccess(t: List<Photo>) {
                     Timber.d("==q loadAll onSuccess ${t.size}")
-                    Timber.d("==q loadAll onSuccess ${t[0]}")
 
+                    view.hideProgress()
                     view.generateDataList(t)
                     dispose()
                 }
 
-                override fun onSubscribe(d: Disposable) {
-                    disposable = d
-                }
-
                 override fun onError(e: Throwable) {
                     Timber.d("==q Load Photos Failed \n$e")
+
+                    view.hideProgress()
                     dispose()
                 }
             })
