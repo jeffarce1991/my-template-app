@@ -1,6 +1,7 @@
 package com.jeff.project420.main.view
 
 import android.app.ProgressDialog
+import android.app.ProgressDialog.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -9,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.mosby.mvp.MvpActivity
 import com.jeff.project420.R
 import com.jeff.project420.adapter.CustomAdapter
+import com.jeff.project420.android.base.extension.invokeSimpleDialog
+import com.jeff.project420.android.base.extension.longToast
+import com.jeff.project420.android.base.extension.shortToast
 import com.jeff.project420.database.local.Photo
 import com.jeff.project420.databinding.ActivityMainBinding
 import com.jeff.project420.main.presenter.MainPresenter
@@ -56,10 +60,28 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
         progressDialog.dismiss()
     }
 
-    override fun showProgress() {
-        progressDialog = ProgressDialog.show(
+    override fun showLoadingDataFailed() {
+        longToast("Loading data failed")
+        /*invokeSimpleDialog("Project420",
+            "OK",
+            "List is empty or null.")*/
+    }
+
+    override fun showToast(message: String) {
+        longToast(message)
+    }
+
+    override fun showProgressRemote() {
+        progressDialog = show(
             this,
             "Project420",
-            "Loading data...")
+            "Loading data remotely...")
+    }
+
+    override fun showProgressLocal() {
+        progressDialog = show(
+            this,
+            "Project420",
+            "Loading data locally...")
     }
 }

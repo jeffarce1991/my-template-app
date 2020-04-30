@@ -5,6 +5,10 @@ import com.jeff.project420.database.local.Photo
 
 interface MainView : MvpView {
      fun hideProgress()
-     fun showProgress()
+     fun showProgressRemote()
+     fun showProgressLocal()
+
+     fun showLoadingDataFailed()
+     fun showToast(message: String)
      fun generateDataList(photos: List<Photo>)
 }
