@@ -6,7 +6,7 @@ import com.jeff.project420.database.local.Photo
 @Dao
 interface PhotoDao {
     @Query("Select * FROM " + Photo.TABLE_NAME)
-    fun getAll(): MutableList<Photo>
+    fun loadAll(): List<Photo>
 
     @Query("Select * FROM " + Photo.TABLE_NAME +
             " WHERE "+ Photo.COLUMN_ID +" IN (:id)")

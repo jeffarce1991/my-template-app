@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.jeff.project420** { *; }
+-keepattributes *Annotation*, Signature, Exception
 
 #This excludes shrinking and obfuscating parts of classes that extend
 #select classes from the Android API. The line including BroadcastReceiver
