@@ -7,14 +7,12 @@ import com.jeff.project420.database.usecase.local.loader.PhotoLocalLoader
 import com.jeff.project420.database.usecase.local.saver.PhotoLocalSaver
 import com.jeff.project420.webservices.exception.NoInternetException
 import com.jeff.project420.webservices.internet.RxInternet
-import com.jeff.project420.main.mapper.PhotoDtoToPhotoMapper
 import com.jeff.project420.main.view.MainView
 import com.jeff.project420.supplychain.photo.PhotoLoader
 import com.jeff.project420.webservices.dto.PhotoDto
 import com.jeff.project420.webservices.api.photos.PhotosApi
 import com.jeff.project420.webservices.api.RetrofitClientInstance
 import com.jeff.project420.utilities.rx.RxSchedulerUtils
-import com.jeff.project420.webservices.usecase.loader.PhotoRemoteLoader
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -55,13 +53,17 @@ constructor(
                 override fun onSuccess(t: List<Photo>) {
                     Timber.d("==q onError $t" )
                     view.hideProgress()
-                    view.generateDataList(t)
-
+                    if (t.isNotEmpty()) {
+                        view.generateDataList(t)
+                        view.showToast("Data loaded Remotely")
+                    } else {
+                        view.showLoadingDataFailed()
+                    }
                     dispose()
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    view.showProgress()
+                    view.showProgressRemote()
                     disposable = d
                 }
 
@@ -72,7 +74,7 @@ constructor(
                     view.hideProgress()
 
                     if (e is NoInternetException) {
-                        loadAll()
+                        getPhotosFromLocal()
                     } else {
                         dispose()
                     }
@@ -128,7 +130,7 @@ constructor(
                 .subscribe(object : SingleObserver<Response<PhotoDto>> {
 
                     override fun onSubscribe(d: Disposable) {
-                        view.showProgress()
+                        view.showProgressRemote()
 
                         disposable = d
                         Timber.d("==q onSubscribe")
@@ -153,29 +155,35 @@ constructor(
     }
 
 
-    fun loadAll(){
-        localLoader.loadAll()
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
+    fun getPhotosFromLocal(){
+        loader.loadAllFromLocal()
+            .compose(schedulerUtils.forSingle())
             .subscribe(object : SingleObserver<List<Photo>>{
                 override fun onSubscribe(d: Disposable) {
                     disposable = d
-                    view.showProgress()
+                    view.showProgressLocal()
                 }
 
                 override fun onSuccess(t: List<Photo>) {
                     Timber.d("==q loadAll onSuccess ${t.size}")
 
                     view.hideProgress()
-                    view.generateDataList(t)
+
+                    if (t.isNotEmpty()) {
+                        view.showToast("Data loaded Locally")
+                        view.generateDataList(t)
+                    } else {
+                        view.showLoadingDataFailed()
+                    }
                     dispose()
                 }
 
                 override fun onError(e: Throwable) {
-                    Timber.d("==q Load Photos Failed \n$e")
+                    Timber.d("==q Load Photos Failed $e")
 
                     view.hideProgress()
                     dispose()
+
                 }
             })
     }
