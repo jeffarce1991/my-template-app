@@ -1,4 +1,4 @@
-package com.jeff.project420.network
+package com.jeff.project420.webservices.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,7 +13,9 @@ object RetrofitClientInstance {
             .baseUrl(baseUrl!!)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(getClient().build())
+            .client(
+                getClient()
+                    .build())
             .build()
     }
 

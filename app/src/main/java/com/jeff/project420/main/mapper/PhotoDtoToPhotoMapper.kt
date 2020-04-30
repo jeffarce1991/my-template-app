@@ -1,7 +1,7 @@
 package com.jeff.project420.main.mapper
 
 import com.jeff.project420.database.local.Photo
-import com.jeff.project420.model.PhotoDto
+import com.jeff.project420.webservices.dto.PhotoDto
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 

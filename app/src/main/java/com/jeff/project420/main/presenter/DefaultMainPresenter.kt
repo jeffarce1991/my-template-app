@@ -5,14 +5,16 @@ import com.jeff.project420.Constants
 import com.jeff.project420.database.local.Photo
 import com.jeff.project420.database.usecase.local.loader.PhotoLocalLoader
 import com.jeff.project420.database.usecase.local.saver.PhotoLocalSaver
-import com.jeff.project420.exception.NoInternetException
-import com.jeff.project420.internet.RxInternet
+import com.jeff.project420.webservices.exception.NoInternetException
+import com.jeff.project420.webservices.internet.RxInternet
 import com.jeff.project420.main.mapper.PhotoDtoToPhotoMapper
 import com.jeff.project420.main.view.MainView
-import com.jeff.project420.model.PhotoDto
-import com.jeff.project420.network.PhotosApi
-import com.jeff.project420.network.RetrofitClientInstance
+import com.jeff.project420.supplychain.photo.PhotoLoader
+import com.jeff.project420.webservices.dto.PhotoDto
+import com.jeff.project420.webservices.api.photos.PhotosApi
+import com.jeff.project420.webservices.api.RetrofitClientInstance
 import com.jeff.project420.utilities.rx.RxSchedulerUtils
+import com.jeff.project420.webservices.usecase.loader.PhotoRemoteLoader
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -24,9 +26,10 @@ import javax.inject.Inject
 class DefaultMainPresenter @Inject
 constructor(
     private val internet: RxInternet,
-    private val loader: PhotoLocalLoader,
-    private val saver: PhotoLocalSaver,
-    private val schedulerUtils: RxSchedulerUtils
+    private val localLoader: PhotoLocalLoader,
+    private val localSaver: PhotoLocalSaver,
+    private val schedulerUtils: RxSchedulerUtils,
+    private val loader: PhotoLoader
 ) : MvpBasePresenter<MainView>(),
     MainPresenter {
 
@@ -46,11 +49,41 @@ constructor(
 
     override fun getPhotos() {
         internet.isConnected()
-            .andThen(getApi().getPhotos())
+            .andThen(loader.loadAll())
+            .compose(schedulerUtils.forSingle())
+            .subscribe(object : SingleObserver<List<Photo>>{
+                override fun onSuccess(t: List<Photo>) {
+                    Timber.d("==q onError $t" )
+                    view.hideProgress()
+                    view.generateDataList(t)
+
+                    dispose()
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    view.showProgress()
+                    disposable = d
+                }
+
+                override fun onError(e: Throwable) {
+                    Timber.d("==q onError $e" )
+                    e.printStackTrace()
+
+                    view.hideProgress()
+
+                    if (e is NoInternetException) {
+                        loadAll()
+                    } else {
+                        dispose()
+                    }
+                }
+            })
+        /*internet.isConnected()
+            .andThen(getApi().loadPhotos())
             .flatMapObservable { list -> Observable.fromIterable(list.body()) }
             .flatMap(PhotoDtoToPhotoMapper())
             .toList()
-            .flatMap { photos -> Single.fromObservable(saver.saveAll(photos)) }
+            .flatMap { photos -> Single.fromObservable(localSaver.saveAll(photos)) }
             .compose(schedulerUtils.forSingle())
             .subscribe(object : SingleObserver<List<Photo>> {
 
@@ -84,12 +117,12 @@ constructor(
                         dispose()
                     }
                 }
-            })
+            })*/
     }
 
     override fun getPhoto(id: Int) {
             internet.isConnected()
-                .andThen(getApi().getPhotoById(id))
+                .andThen(getApi().loadPhotoById(id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : SingleObserver<Response<PhotoDto>> {
@@ -121,7 +154,7 @@ constructor(
 
 
     fun loadAll(){
-        loader.all()
+        localLoader.loadAll()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<List<Photo>>{

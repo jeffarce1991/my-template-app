@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DefaultPhotoLocalLoader @Inject
 constructor(private val dao: PhotoDao): PhotoLocalLoader {
 
-    override fun all(): Single<List<Photo>> {
+    override fun loadAll(): Single<List<Photo>> {
         return Single.fromCallable { dao.getAll() }
     }
 

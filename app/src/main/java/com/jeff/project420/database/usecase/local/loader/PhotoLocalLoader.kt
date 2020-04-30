@@ -5,5 +5,5 @@ import io.reactivex.Single
 import java.util.*
 
 interface PhotoLocalLoader {
-    fun all(): Single<List<Photo>>
+    fun loadAll(): Single<List<Photo>>
 }

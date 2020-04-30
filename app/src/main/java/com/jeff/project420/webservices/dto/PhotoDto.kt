@@ -1,4 +1,4 @@
-package com.jeff.project420.model
+package com.jeff.project420.webservices.dto
 
 import com.google.gson.annotations.SerializedName
 

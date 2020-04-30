@@ -1,4 +1,4 @@
-package com.jeff.project420.internet
+package com.jeff.project420.webservices.internet
 
 import dagger.Binds
 import dagger.Module

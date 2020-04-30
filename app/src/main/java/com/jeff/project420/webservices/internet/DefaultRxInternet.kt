@@ -1,8 +1,8 @@
-package com.jeff.project420.internet
+package com.jeff.project420.webservices.internet
 
 import io.reactivex.Completable
 import javax.inject.Inject
-import com.jeff.project420.exception.NoInternetException
+import com.jeff.project420.webservices.exception.NoInternetException
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
