@@ -1,4 +1,4 @@
-# Project420
+# my-template-project
 A Android Template Project where I impemented : 
   - Kotlin
   - Retrofit
