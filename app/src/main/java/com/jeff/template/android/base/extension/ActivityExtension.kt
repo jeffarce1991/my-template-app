@@ -39,6 +39,14 @@ fun Activity.invokeSimpleDialog(title: String,
 }
 
 fun Activity.invokeSimpleDialog(title: String,
+                                message: String) {
+    AlertDialog.Builder(this)
+        .setTitle(title)
+        .setMessage(message)
+        .show()
+}
+
+fun Activity.invokeSimpleDialog(title: String,
                                 positiveButtonText: String,
                                 message: String) {
     AlertDialog.Builder(this)

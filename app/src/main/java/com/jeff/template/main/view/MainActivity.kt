@@ -3,17 +3,22 @@ package com.jeff.template.main.view
 import android.app.ProgressDialog
 import android.app.ProgressDialog.*
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.mosby.mvp.MvpActivity
+import com.jeff.template.BuildConfig
 import com.jeff.template.R
 import com.jeff.template.adapter.CustomAdapter
+import com.jeff.template.android.base.extension.invokeSimpleDialog
 import com.jeff.template.android.base.extension.longToast
 import com.jeff.template.database.local.Photo
 import com.jeff.template.databinding.ActivityMainBinding
 import com.jeff.template.main.presenter.MainPresenter
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.content_main.view.*
 import javax.inject.Inject
 
 
@@ -21,7 +26,7 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
     private lateinit var adapter: CustomAdapter
     private lateinit var progressDialog: ProgressDialog
 
-    lateinit var mainBinding : ActivityMainBinding
+    private lateinit var mainBinding : ActivityMainBinding
 
     lateinit var photos : List<Photo>
 
@@ -37,9 +42,38 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mainPresenter.getPhotos()
+
+        setUpToolbarTitle()
         mainBinding.root.swipeRefreshLayout.setOnRefreshListener {
             mainPresenter.getPhotos()
         }
+    }
+
+    private fun setUpToolbarTitle() {
+        setSupportActionBar(mainBinding.toolbar)
+
+        //supportActionBar!!.title = getString(R.string.app_name)
+        supportActionBar!!.title = resources.getString(R.string.app_name)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.about -> {
+                invokeSimpleDialog(
+                    getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME,
+                    getString(R.string.about_description)
+                            + "\nDeveloped by : Jeff Arce"
+                )
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -47,8 +81,8 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
     override fun generateDataList(photos: List<Photo>) {
         adapter = CustomAdapter(this, photos)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@MainActivity)
-        mainBinding.customRecyclerView.layoutManager = layoutManager
-        mainBinding.customRecyclerView.adapter = adapter
+        mainBinding.root.customRecyclerView.layoutManager = layoutManager
+        mainBinding.root.customRecyclerView.adapter = adapter
     }
 
     override fun createPresenter(): MainPresenter {
@@ -76,14 +110,14 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
     override fun showProgressRemote() {
         progressDialog = show(
             this,
-            "Project420",
+            resources.getString(R.string.app_name),
             "Loading data remotely...")
     }
 
     override fun showProgressLocal() {
         progressDialog = show(
             this,
-            "Project420",
+            resources.getString(R.string.app_name),
             "Loading data locally...")
     }
 }

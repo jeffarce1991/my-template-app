@@ -63,7 +63,7 @@ constructor(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    view.showProgressRemote()
+                    view.showProgress()
                     disposable = d
                 }
 
@@ -80,46 +80,6 @@ constructor(
                     }
                 }
             })
-        /*internet.isConnected()
-            .andThen(getApi().loadPhotos())
-            .flatMapObservable { list -> Observable.fromIterable(list.body()) }
-            .flatMap(PhotoDtoToPhotoMapper())
-            .toList()
-            .flatMap { photos -> Single.fromObservable(localSaver.saveAll(photos)) }
-            .compose(schedulerUtils.forSingle())
-            .subscribe(object : SingleObserver<List<Photo>> {
-
-                override fun onSubscribe(d: Disposable) {
-                    Timber.d("==q onSubscribe")
-                    disposable = d
-
-                    view.showProgress()
-                }
-
-                override fun onSuccess(t: List<Photo>) {
-                    Timber.d("==q onSuccess")
-
-                    view.hideProgress()
-                    view.generateDataList(t)
-
-                    dispose()
-                }
-
-                override fun onError(e: Throwable) {
-                    Timber.d("==q onError $e")
-
-                    view.hideProgress()
-
-                    if (e is NoInternetException) {
-                        Timber.d("==q onError is $e")
-
-                        loadAll()
-                    } else {
-
-                        dispose()
-                    }
-                }
-            })*/
     }
 
     override fun getPhoto(id: Int) {
@@ -130,7 +90,7 @@ constructor(
                 .subscribe(object : SingleObserver<Response<PhotoDto>> {
 
                     override fun onSubscribe(d: Disposable) {
-                        view.showProgressRemote()
+                        view.showProgress()
 
                         disposable = d
                         Timber.d("==q onSubscribe")
@@ -161,7 +121,7 @@ constructor(
             .subscribe(object : SingleObserver<List<Photo>>{
                 override fun onSubscribe(d: Disposable) {
                     disposable = d
-                    view.showProgressLocal()
+                    view.showProgress()
                 }
 
                 override fun onSuccess(t: List<Photo>) {
