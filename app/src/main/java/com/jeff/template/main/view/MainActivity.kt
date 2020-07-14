@@ -37,6 +37,9 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mainPresenter.getPhotos()
+        mainBinding.root.swipeRefreshLayout.setOnRefreshListener {
+            mainPresenter.getPhotos()
+        }
     }
 
 
@@ -53,7 +56,10 @@ class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
     }
 
     override fun hideProgress() {
-        progressDialog.dismiss()
+        mainBinding.root.swipeRefreshLayout.isRefreshing = false
+    }
+    override fun showProgress() {
+        mainBinding.root.swipeRefreshLayout.isRefreshing = true
     }
 
     override fun showLoadingDataFailed() {
