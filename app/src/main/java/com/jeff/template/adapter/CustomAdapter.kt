@@ -4,15 +4,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.jakewharton.picasso.OkHttp3Downloader
 import com.jeff.template.R
 import com.jeff.template.adapter.CustomAdapter.CustomViewHolder
+import com.jeff.template.android.base.extension.shortToast
 import com.jeff.template.database.local.Photo
 import com.jeff.template.databinding.CustomRowBinding
+import com.jeff.template.main.view.MainActivity
 import com.squareup.picasso.Picasso
 
 internal class CustomAdapter(
@@ -22,6 +26,7 @@ internal class CustomAdapter(
 
     internal inner class CustomViewHolder(binding: CustomRowBinding) :
         ViewHolder(binding.root) {
+        var itemLayout: ConstraintLayout = binding.itemLayout
         var txtTitle: TextView = binding.customRowTitle
         val coverImage: ImageView = binding.coverImage
 
@@ -36,13 +41,19 @@ internal class CustomAdapter(
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.txtTitle.text = dataList[position].title
+        val item = dataList[position]
+        holder.txtTitle.text = item.title
         val builder = Picasso.Builder(context)
         builder.downloader(OkHttp3Downloader(context))
-        builder.build().load(dataList[position].thumbnailUrl)
+        builder.build().load(item.thumbnailUrl)
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
             .into(holder.coverImage)
+
+        holder.itemLayout.setOnClickListener {
+            val context = context as MainActivity
+            context.shortToast("${item.id}")
+        }
     }
 
     override fun getItemCount(): Int {

@@ -5,6 +5,7 @@ import com.jeff.template.database.local.Photo
 
 interface MainView : MvpView {
      fun hideProgress()
+     fun showProgress()
      fun showProgressRemote()
      fun showProgressLocal()
 
