@@ -7,3 +7,5 @@ A Android Template Project where I impemented :
   - Room
   - MVP (Model-View-Presenter)
   - RxJava
+  - AndroidX
+  - Recylerview
