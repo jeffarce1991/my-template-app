@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.jeff.project420** { *; }
+-keep class com.jeff.template** { *; }
 -keepattributes *Annotation*, Signature, Exception
 
 #This excludes shrinking and obfuscating parts of classes that extend
