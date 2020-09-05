@@ -1,4 +1,4 @@
-package com.jeff.template.main.view
+package com.jeff.template.main.list.view
 
 import android.app.ProgressDialog
 import android.app.ProgressDialog.*
@@ -16,13 +16,14 @@ import com.jeff.template.android.base.extension.invokeSimpleDialog
 import com.jeff.template.android.base.extension.longToast
 import com.jeff.template.database.local.Photo
 import com.jeff.template.databinding.ActivityMainBinding
-import com.jeff.template.main.presenter.MainPresenter
+import com.jeff.template.main.list.presenter.MainPresenter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.content_main.view.*
 import javax.inject.Inject
 
 
-class MainActivity : MvpActivity<MainView, MainPresenter>(), MainView {
+class MainActivity : MvpActivity<MainView, MainPresenter>(),
+    MainView {
     private lateinit var adapter: CustomAdapter
     private lateinit var progressDialog: ProgressDialog
 

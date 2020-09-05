@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
@@ -16,7 +15,7 @@ import com.jeff.template.adapter.CustomAdapter.CustomViewHolder
 import com.jeff.template.android.base.extension.shortToast
 import com.jeff.template.database.local.Photo
 import com.jeff.template.databinding.CustomRowBinding
-import com.jeff.template.main.view.MainActivity
+import com.jeff.template.main.list.view.MainActivity
 import com.squareup.picasso.Picasso
 
 internal class CustomAdapter(
