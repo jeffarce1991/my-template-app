@@ -1,4 +1,4 @@
-package com.jeff.template.main.presenter
+package com.jeff.template.main.list.presenter
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 import com.jeff.template.Constants
@@ -7,7 +7,7 @@ import com.jeff.template.database.usecase.local.loader.PhotoLocalLoader
 import com.jeff.template.database.usecase.local.saver.PhotoLocalSaver
 import com.jeff.template.webservices.exception.NoInternetException
 import com.jeff.template.webservices.internet.RxInternet
-import com.jeff.template.main.view.MainView
+import com.jeff.template.main.list.view.MainView
 import com.jeff.template.supplychain.photo.PhotoLoader
 import com.jeff.template.webservices.dto.PhotoDto
 import com.jeff.template.webservices.api.photos.PhotosApi

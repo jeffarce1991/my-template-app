@@ -1,4 +1,4 @@
-package com.jeff.template.main.view
+package com.jeff.template.main.list.view
 
 import com.hannesdorfmann.mosby.mvp.MvpView
 import com.jeff.template.database.local.Photo

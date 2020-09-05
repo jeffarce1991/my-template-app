@@ -4,19 +4,18 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.jakewharton.picasso.OkHttp3Downloader
 import com.jeff.template.R
 import com.jeff.template.adapter.CustomAdapter.CustomViewHolder
-import com.jeff.template.android.base.extension.shortToast
 import com.jeff.template.database.local.Photo
 import com.jeff.template.databinding.CustomRowBinding
-import com.jeff.template.main.view.MainActivity
+import com.jeff.template.main.detail.view.DetailsActivity
 import com.squareup.picasso.Picasso
 
 internal class CustomAdapter(
@@ -28,7 +27,7 @@ internal class CustomAdapter(
         ViewHolder(binding.root) {
         var itemLayout: ConstraintLayout = binding.itemLayout
         var txtTitle: TextView = binding.customRowTitle
-        val coverImage: ImageView = binding.coverImage
+        val thumbnail: ImageView = binding.thumbnail
 
     }
 
@@ -43,16 +42,36 @@ internal class CustomAdapter(
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val item = dataList[position]
         holder.txtTitle.text = item.title
+
         val builder = Picasso.Builder(context)
         builder.downloader(OkHttp3Downloader(context))
         builder.build().load(item.thumbnailUrl)
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
-            .into(holder.coverImage)
+            .into(holder.thumbnail)
+
+        /*
+        There was 1 cause:
+        java.io.FileNotFoundException(https://via.placeholder.com/600/92c952)
+        only on https://via.placeholder.com/
+
+        Glide
+            .with(context)
+            .load(item.url)
+            .centerCrop()
+            .placeholder(R.drawable.ic_launcher_background)
+            .fallback(R.drawable.ic_launcher_background)
+            .into(holder.thumbnail)*/
 
         holder.itemLayout.setOnClickListener {
-            val context = context as MainActivity
-            context.shortToast("${item.id}")
+            val intent = DetailsActivity.getStartIntent(
+                context,
+                item.id,
+                item.title,
+                item.url,
+                item.thumbnailUrl
+            )
+            context.startActivity(intent)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.jeff.template.main.presenter
+package com.jeff.template.main.list.presenter
 
 import dagger.Binds
 import dagger.Module
@@ -8,5 +8,6 @@ abstract class MainPresenterModule {
 
     @Binds
     abstract fun bindMainPresenter(
-        defaultSplashPresenter: DefaultMainPresenter): MainPresenter
+        defaultSplashPresenter: DefaultMainPresenter
+    ): MainPresenter
 }
