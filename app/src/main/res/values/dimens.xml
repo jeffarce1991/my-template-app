@@ -5,4 +5,10 @@
     <dimen name="screen_margin">16dp</dimen>
     <dimen name="screen_margin_small">12dp</dimen>
     <dimen name="screen_margin_xs">8dp</dimen>
+    <dimen name="app_bar_height">220dp</dimen>
+
+    //Shimmer
+    <dimen name="placeholderTextHeight">17sp</dimen>
+    <dimen name="placeholderTextHeightHeadline6">22sp</dimen>
+
 </resources>

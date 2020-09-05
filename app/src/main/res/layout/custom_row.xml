@@ -17,7 +17,7 @@
         android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:id="@+id/coverImage"
+            android:id="@+id/thumbnail"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/content_description"
@@ -35,7 +35,7 @@
             android:layout_margin="@dimen/screen_margin"
             android:text="TITLE"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/coverImage"
+            app:layout_constraintStart_toEndOf="@+id/thumbnail"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
