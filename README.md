@@ -10,6 +10,7 @@ A Android Template Project where I impemented :
   - AndroidX
   - Recylerview
   
+Description : 
   - Shows List of Photos
   - Shows Details of each Photos (Collapsible Header Toolbar)
   - Shimmer
